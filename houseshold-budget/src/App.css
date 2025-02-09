@@ -1,0 +1,58 @@
+:root {
+  --color-neutral-white: #fff;
+  --color-neutral-black: #000;
+  --color-semantic-primary-1: #008DA6;
+  --color-semantic-primary-1: #008DA6;
+  --color-semantic-secondary-1: #00A3BF;
+  --color-semantic-text-1: #4D4D4D;
+  --color-semantic-background-1: #E9F7F9;
+}
+
+.flex {
+  display: flex;
+}
+.flex-a-ctr {
+  align-items: center;
+}
+.gap8 {
+  gap: 8px;
+}
+
+.add_area,
+.save_area {
+  padding: 32px;
+  background-color: var(--color-semantic-background-1);
+}
+
+input {
+  padding: 8px 24px;
+  appearance: none;
+  margin-right: 16px;
+}
+
+button {
+  padding: 8px 24px;
+  appearance: none;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--color-semantic-primary-1);
+  color: var(--color-neutral-white);
+}
+
+.save_list {
+  display: grid;
+  gap: 8px;
+}
+.save_item {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 1fr 100px;
+  gap: 8px;
+}
+
+.tag_item {
+  text-align: center;
+  padding: .2em 1em;
+  background-color: var(--color-semantic-secondary-1);
+  color: var(--color-neutral-white);
+}
