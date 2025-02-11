@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useState } from 'react';
 import './App.css'
+import { MyBarChart, CategoryBarChart } from './components/graph.jsx';
 
 function App() {
 
@@ -59,7 +60,11 @@ function App() {
   }
 
   const expenditureTotalPrice = () => {
-    return saveItems.reduce((total, item) => total + Number(item.price), 0); // 合計金額を計算
+    const categoryTotal = saveItems.reduce((acc, item) => {
+      acc[item.category] = (acc[item.category] || 0) + Number(item.price);
+      return acc;
+    }, {});
+    return categoryTotal; // カテゴリごとの合計金額を返す
   }
 
   const [category, setCategory] = useState('食費'); // 新しい状態を追加
@@ -68,12 +73,42 @@ function App() {
     setCategory(e.target.value); // カテゴリーを変更する関数を追加
   }
 
+  const [selected, setSelected] = useState(
+    [
+      {
+        item: "支出",
+        isSelected: true,
+      }
+    ]
+  );
+
+  const changeItem = (e) => {
+    setSelected(e.target.value);
+  }
+
 
   return (
     <>
+    <div className="sum_area">
+      <h2 className="">支出の合計金額</h2>
+      <div>
+        <CategoryBarChart expenditureTotalPrice={expenditureTotalPrice()}/>
+        {Object.entries(expenditureTotalPrice()).map(([category, total]) => (
+          <div key={category}>{category}: {total}円</div>
+        ))}
+      </div>
+    </div>
     <div className="add_area">
-      <h2 className="">追加する</h2>
+      <h2>支出を追加する</h2>
       <div className="add_item">
+        <div>
+          <input type="radio" placeholder="項目を追加してください。" value={selected === "支出"} name="content" onChange={changeItem}/>
+          <label>支出</label>
+        </div>
+        <div>
+          <input type="radio" placeholder="項目を追加してください。" value={selected === "収入"} name="content" onChange={changeItem}/>
+          <label>収入</label>
+        </div>
         <input type="text" value={save} placeholder="項目を追加してください。" onChange={changeText}/>
         <input type="number" value={price} placeholder="金額を追加してください。" onChange={changePrice}/>
         <button onClick={addSaveItem}>項目と金額を追加する</button>
@@ -101,9 +136,8 @@ function App() {
         })}
       </ul>
     </div>
-    <div className="sum_area">
-        <h2 className="">支出の合計金額</h2>
-        <div>{expenditureTotalPrice()}円</div>
+    <div>
+      <MyBarChart saveItems={saveItems} />
     </div>
     </>
   )
